@@ -1,7 +1,7 @@
 import pygame
 import random
 
-WIDTH, HEIGHT = 500, 500
+WIDTH, HEIGHT = 480, 480
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
@@ -39,7 +39,7 @@ class Snake():
         new_position = (((head[0] + (x * SIZE)) % WIDTH), (head[1] + (y * SIZE)) % HEIGHT)
 
         #kolizja sama ze sobą
-        if len(self.__position) > 2 and new_position in self.__position[2:0]:
+        if len(self.__position) > 2 and new_position in self.__position[2:]:
             self.reset()
         # kolizję ze ścianą
         elif (new_position[1] == 0 and y == 1) or (new_position[1] == 480 and y == -1):
@@ -48,7 +48,6 @@ class Snake():
             self.reset()
         else:
             self.__position.append(new_position)
-
 
     def reset(self):
         self.__len = 1
@@ -102,6 +101,7 @@ def main():
 
     run = True
     while run:
+        pygame.time.delay(100)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -124,7 +124,7 @@ def main():
         draw_board(win)
         snake.draw(win)
         food.draw(win)
-        #win.blit(win, (0,0))
+        win.blit(win, (0,0))
 
         pygame.display.update()
     pygame.quit()
