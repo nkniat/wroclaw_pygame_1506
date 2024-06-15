@@ -1,12 +1,22 @@
 import pygame
 from sys import exit
 
+
+def display_score():
+    current_time = int(pygame.time.get_ticks() / 1000) - start_time
+    score_surface = font.render(f'{current_time}', 1, "White")
+    score_rect = score_surface.get_rect(center=(300, 50))
+    screen.blit(score_surface, score_rect)
+    # TODO return - score
+
+
 pygame.init()  #inicjalizacja biblioteki pygame
 screen = pygame.display.set_mode((600, 400))  #rozmiar okna
 pygame.display.set_caption("Moja pierwsza gra")  #nazwa okienka
 # dodajemy framerate
 clock = pygame.time.Clock()
 game_active = True
+start_time = 0
 font = pygame.font.SysFont("Arial", 24)
 
 background_surface = pygame.image.load('images_PG/background.png').convert()
@@ -35,13 +45,15 @@ while True:
                     #print('nacisnieto spacje')
                     player_gravity = -20
 
-        else:
+        else:  #restart gry
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
                 mushroom_rect.left = 700
+                start_time = int(pygame.time.get_ticks() / 1000)
 
     if game_active:
         screen.blit(background_surface, (0, 0))
+        display_score()
 
         mushroom_rect.x -= 5
         if mushroom_rect.x < -100:
@@ -62,7 +74,7 @@ while True:
     else:
         screen.fill("Black")
         screen.blit(game_msg, game_msg_rect)
-
+        # TODO > wyswietl aktualny wynik
 
     # 3. ciągły update ekranu
     pygame.display.update()
