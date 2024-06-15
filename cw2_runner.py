@@ -15,6 +15,7 @@ mushroom_rect = mushroom_surface.get_rect(midbottom=(500, 350))
 
 player_surface = pygame.image.load('images_PG/girl_stay.png').convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(50, 350))
+player_gravity = 0
 
 while True:
     # 1. sprawdzanie inputu od użytkownika
@@ -22,15 +23,23 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and player_rect.bottom == 350:
+                #print('nacisnieto spacje')
+                player_gravity = -20
 
     screen.blit(background_surface, (0, 0))
 
     mushroom_rect.x -= 5
-    screen.blit(mushroom_surface, mushroom_rect)
-    screen.blit(player_surface, player_rect)
-
     if mushroom_rect.x < -100:
         mushroom_rect.x = 700
+    screen.blit(mushroom_surface, mushroom_rect)
+
+    player_gravity += 1
+    player_rect.y += player_gravity
+    if player_rect.bottom >= 350:
+        player_rect.bottom = 350
+    screen.blit(player_surface, player_rect)
 
     # if player_rect.colliderect(mushroom_rect):
     #     print('Zderzenie')
