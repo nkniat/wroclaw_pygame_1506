@@ -48,6 +48,8 @@ class Snake():
             self.reset()
         else:
             self.__position.append(new_position)
+            if len(self.__position) > self.__len:
+                del self.__position[0]
 
     def reset(self):
         self.__len = 1
