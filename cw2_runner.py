@@ -10,6 +10,18 @@ def display_score():
     # TODO return - score
 
 
+def player_animation():
+    global player_surf, player_index
+
+    if player_rect.bottom < 350:
+        player_surf = player_jump
+    else:
+        player_index += 0.1
+        if player_index >= len(player_walk):
+            player_index = 0
+        player_surf = player_walk[int(player_index)]
+
+
 pygame.init()  #inicjalizacja biblioteki pygame
 screen = pygame.display.set_mode((600, 400))  #rozmiar okna
 pygame.display.set_caption("Moja pierwsza gra")  #nazwa okienka
@@ -25,9 +37,18 @@ mushroom_surface = pygame.image.load('images_PG/mashroom.png').convert_alpha()
 mushroom_rect = mushroom_surface.get_rect(midbottom=(500, 350))
 # mushroom_pos_x = 500
 
-player_surface = pygame.image.load('images_PG/girl_stay.png').convert_alpha()
-player_rect = player_surface.get_rect(midbottom=(50, 350))
+# player_surface = pygame.image.load('images_PG/girl_stay.png').convert_alpha()
+# player_rect = player_surface.get_rect(midbottom=(50, 350))
 player_gravity = 0
+
+player_jump = pygame.image.load('images_PG/girl_jump.png')
+prayer_walk_1 = pygame.image.load('images_PG/girl_walk.png')
+prayer_walk_2 = pygame.image.load('images_PG/girl_walk2.png')
+player_walk = [prayer_walk_1, prayer_walk_2]
+player_index = 0
+
+player_surf = player_walk[player_index]
+player_rect = player_surf.get_rect(midbottom=(50, 350))
 
 game_msg = font.render("Naciśnij spację, żeby zagrać dalej", 1, "White")
 game_msg_rect = game_msg.get_rect(center=(300, 200))
@@ -64,7 +85,9 @@ while True:
         player_rect.y += player_gravity
         if player_rect.bottom >= 350:
             player_rect.bottom = 350
-        screen.blit(player_surface, player_rect)
+        player_animation()
+        screen.blit(player_surf, player_rect)
+
 
         if player_rect.colliderect(mushroom_rect):
             #print('Zderzenie')
