@@ -26,7 +26,7 @@ class Snake():
         return self.__position[-1]  #ostatni element listy to głowa węża
 
     def direction(self, move_direction):
-        if self.__len > 1:  # TODO
+        if self.__len > 1 and (move_direction[0] * -1, move_direction[1] * -1) == self.__move_direction:
             return
         else:
             self.__move_direction = move_direction
